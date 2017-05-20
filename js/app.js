@@ -33,7 +33,7 @@ new Vue({
                         }
                         var mappingText = JSON.stringify(mappingsObj)
                         var mappingJson = eval('(' + mappingText + ')')
-                        var ssHead = 'ss://'
+                        var ssHead = 'ssr://'
                         if (mappingJson) {
                             for (var j = 0; j < mappingJson.length; j++) {
                                 for (var k = 0; k < mappingJson[j].length; k++) {
@@ -43,9 +43,11 @@ new Vue({
                                     mappingResult.host = this.reHost(mappingJson[j][k].host)
                                     mappingResult.cmd = cmd
                                     mappingResult.pwd = pwd
-                                    mappingResult.lock = lock
-                                    ssUrl = lock+':'+pwd+'@'+this.reHost(mappingJson[j][k].host)+':'+mappingJson[j][k].service_port
-                                    mappingResult.ss_url = ssHead+this.base64DeCode(ssUrl)
+                                    mappingResult.meth = meth
+                                    mappingResult.prot = prot
+                                    mappingResult.obfs = obfs
+                                    ssUrl = this.reHost(mappingJson[j][k].host)+':'+mappingJson[j][k].service_port+':'+prot+':'+meth+':'+obfs
+                                    mappingResult.ss_url = ssHead+this.base64DeCode(ssUrl+':'+this.base64DeCode(pwd))
                                     this.configs.push(mappingResult)
                                 }
                             }
@@ -75,11 +77,21 @@ new Vue({
             pwd = oldpwd.substring(oldpwd.indexOf("k ") + 2,oldpwd.indexOf(" -m"))
             return pwd
         },
-        reLock: function (oldLock) {
-            if(oldLock == null) return
-            lock = oldLock.substring(oldLock.indexOf("m ")+2)
-            return lock
+        reMeth: function (oldmeth) {
+            if(oldmeth == null) return
+            meth = oldmeth.substring(oldmeth.indexOf("m ") + 2,oldmeth.indexOf(" -o"))
+            return meth
         },
+        reProt: function (oldprot) {
+            if(oldprot == null) return
+            port = oldprot.substring(oldprot.indexOf("o ") + 2,oldprot.indexOf(" -O))
+            return prot
+        },
+        reObfs: function (oldobfs) {
+            if(oldobfs == null) return
+            obfs = oldobfs.substring(oldobfs.indexOf("O ")+2)
+            return obfs
+            },
         base64DeCode: function (str) {
             var rawStr = str
             var wordArray = CryptoJS.enc.Utf8.parse(rawStr)
