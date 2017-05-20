@@ -26,7 +26,9 @@ new Vue({
                         var mappingsObj = result.data[i].attributes.port_mappings
                         var cmd = result.data[i].attributes.cmd
                         var pwd = this.rePwd(cmd)
-                        var lock = this.reLock(cmd)
+                        var meth = this.reMeth(cmd)
+                        var prot = this.reProt(cmd)
+                        var obfs = this.reObfs(cmd)
                         var image_name = result.data[i].attributes.image_name
                         if (image_name.indexOf("ssr-with-net-speeder") ==-1) {
                             continue
@@ -84,7 +86,7 @@ new Vue({
         },
         reProt: function (oldprot) {
             if(oldprot == null) return
-            port = oldprot.substring(oldprot.indexOf("o ") + 2,oldprot.indexOf(" -O))
+            prot = oldprot.substring(oldprot.indexOf("o ") + 2,oldprot.indexOf(" -O))
             return prot
         },
         reObfs: function (oldobfs) {
