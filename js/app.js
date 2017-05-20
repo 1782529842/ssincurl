@@ -28,7 +28,7 @@ new Vue({
                         var pwd = this.rePwd(cmd)
                         var lock = this.reLock(cmd)
                         var image_name = result.data[i].attributes.image_name
-                        if (image_name.indexOf("ss-with-net-speeder") ==-1) {
+                        if (image_name.indexOf("ssr-with-net-speeder") ==-1) {
                             continue
                         }
                         var mappingText = JSON.stringify(mappingsObj)
